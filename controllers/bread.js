@@ -11,7 +11,9 @@ router.get('/', (req,res) => {
 router.get('/:arrayIndex', (req,res) => {
     const { arrayIndex } = req.params
     const index = Number(arrayIndex)
-    res.send(Bread[index])
+    res.render('show', {
+        bread: Bread[index]
+    })
 })
 
 module.exports = router
