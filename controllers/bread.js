@@ -1,21 +1,28 @@
 const router = require('express').Router()
-
+//models are always capitalized
 const Bread = require('../models/bread')
+const Baker = require('../models/baker')
+
 
 router.get('/', async (req,res) => {
     const bread = await Bread.find()
+    const bakers = await Baker.find()
     res.render('index', {
-        breads: bread
+        breads: bread,
+        bakers
     })
 })
 
-router.get('/new', (req,res) => {
-    res.render('new')
+router.get('/new', async (req,res) => {
+    const bakers = await Baker.find()
+    res.render('new', {
+        bakers
+    })
 })
 
 router.get('/:id', async (req,res) => {
     const { id } = req.params
-    const bread = await Bread.findById(id)
+    const bread = await Bread.findById(id).populate('baker')
     res.render('show', {
         bread
     })
@@ -35,11 +42,15 @@ router.post('/', async (req,res) => {
     res.redirect('/breads')
 })
 
+
+
 router.get('/:id/edit', async (req,res) => {
     const { id } = req.params
     const bread = await Bread.findById(id)
+    const bakers = await Baker.find()
     res.render('edit', {
-        bread
+        bread,
+        bakers
     })
 })
 
