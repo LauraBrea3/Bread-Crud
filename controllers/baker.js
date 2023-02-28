@@ -53,4 +53,10 @@ router.get('/data/seed', async (req, res) => {
       res.redirect('/breads')
 })
 
+router.delete('/:id', async (req,res) => {
+    const { id } = req.params
+    await Baker.findByIdAndDelete(id)
+    res.status(303).redirect('/breads')
+})
+
 module.exports = router
